@@ -14,14 +14,6 @@ export default function UpdatePasswordPage() {
     const [loading, setLoading] = React.useState(false);
     const [passwordUpdated, setPasswordUpdated] = React.useState(false);
 
-    const verifyToken = async () => {
-        try {
-            await axios.get('/api/users/password', { params: { token, password } })
-            setTokenVerified(true);
-        } catch (error: any) {
-            setError(true);
-        }
-    }
 
     const updatePassword = async () => {
         try {
@@ -53,10 +45,18 @@ export default function UpdatePasswordPage() {
 
 
     useEffect(() => {
+        const verifyToken = async () => {
+            try {
+                await axios.get('/api/users/password', { params: { token, password } })
+                setTokenVerified(true);
+            } catch (error: any) {
+                setError(true);
+            }
+        }
         if (token.length > 0) {
             verifyToken();
         }
-    }, [token]);
+    }, [token, password]);
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
             <h1 className="text-4xl sm:text-6xl text-center font-bold">Update Password</h1>
